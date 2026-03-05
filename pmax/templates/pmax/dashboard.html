@@ -4,16 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        .container{
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+            flex-direction: column;
+            flex-wrap: wrap;
+        }
+        .card {
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+            box-shadow: 0 0 15px black;
+            padding: 20px;
+            border-radius: 10px;
+        }
+    </style>
 </head>
 <body>
     <center><h1>Movies List</h1></center>
-    <h1>hiiiii</h1>
     <div class="container">
         {% for i in movies %}
-        <img height="200px" src="{{i.image.url}}" alt="">
+        <div class="card">
+            <img height="200px" src="{{i.image.url}}" alt="">
         <h2>Title: {{i.name}}</h2>
         <h2>Durations: {{i.durations}} mins</h2>
         <button>Views</button><br>
+        </div>
     {% endfor %}
     </div>
 </body>
