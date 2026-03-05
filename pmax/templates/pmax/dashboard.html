@@ -7,11 +7,14 @@
 </head>
 <body>
     <center><h1>Movies List</h1></center>
-    {% for i in movies %}
+    <h1>hiiiii</h1>
+    <div class="container">
+        {% for i in movies %}
         <img height="200px" src="{{i.image.url}}" alt="">
         <h2>Title: {{i.name}}</h2>
         <h2>Durations: {{i.durations}} mins</h2>
         <button>Views</button><br>
     {% endfor %}
+    </div>
 </body>
 </html>
