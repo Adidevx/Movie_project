@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <center><h1>Book Now</h1></center>
+    <h2> Title :{{movie.name}}</h2>
+    <img height="250px" src="{{movie.image.url}}" alt="">
+    <h2>Language : {{movie.language}}</h2>
+    <h2>Duration : {{movie.duration}}</h2>
+
+    <h1>Available Shows</h1>
+    {% for i in shows %}
+    <h2>Theatre: {{i.theatre.name}}</h2>
+    <h2>Price: {{i.price}}</h2>
+    <h2>Avaliable Seats: {{i.available_seats}}</h2>
+    
+    {% if i.available_seats > 0 %}
+        <button>Book Now</button>
+    {% else %}
+        <button>Sold Out</button>
+        {% endif %}
+    {% empty %}
+    <h2>No shows avaliable</h2>
+    {% endfor %}
+
+    <hr>
+</body>
+</html>

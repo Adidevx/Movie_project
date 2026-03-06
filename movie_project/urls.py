@@ -18,14 +18,16 @@ from django.contrib import admin
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
-from pmax.views import Home, Signup, Login, Dashboard
+from pmax.views import Home, Signup, Login, Dashboard, logout, movie_detail
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',Home,name="Home"),
     path('signup',Signup,name="Signup"),
     path("login/",Login,name='Login'),
-    path("dashboard/",Dashboard,name='dashboard')
+    path("dashboard/",Dashboard,name='dashboard'),
+    path('logout/',logout,name='logout'),
+    path('movie_detail/<int:movie_id>/',movie_detail,name="movie_detail")
 ]
     
 urlpatterns = urlpatterns + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

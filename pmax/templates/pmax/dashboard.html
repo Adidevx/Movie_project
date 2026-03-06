@@ -24,13 +24,14 @@
 </head>
 <body>
     <center><h1>Movies List</h1></center>
+    <a href="{% url 'logout' %}"><button>Logout</button></a>
     <div class="container">
         {% for i in movies %}
         <div class="card">
             <img height="200px" src="{{i.image.url}}" alt="">
         <h2>Title: {{i.name}}</h2>
         <h2>Durations: {{i.durations}} mins</h2>
-        <button>Views</button><br>
+        <a href="{% url 'movie_detail' i.id %}"><button>View</button></a><br>
         </div>
     {% endfor %}
     </div>

@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from pmax.models import User, Movie
+from pmax.models import User, Movie,Show
+
 # Create your views here.
 def Home(request):
     return render(request,"./pmax/home.html")
@@ -30,7 +31,7 @@ def Login(request):
             request.session["user-name"] = user.username
             return redirect("dashboard")
         except:
-            return render("./pmax/login.html",{"error":"Invalid credentials"})
+            return render(request,"./pmax/login.html",{"error":"Invalid credentials"})
     else:
         return render(request,"./pmax/login.html")
     
@@ -41,3 +42,17 @@ def Dashboard(request):
     
     movies = Movie.objects.all()
     return render(request, "./pmax/dashboard.html",{"movies":movies})
+
+
+def logout(request):
+    request.session.flush()
+    return redirect("Login")
+
+def movie_detail(request,movie_id):
+    user_id = request.session.get('user-id')
+    if not user_id:
+        return redirect("Login")
+
+    movie = Movie.objects.get(id=movie_id)
+    show = Show.objects.filter(movie=movie)
+    return render(request,"./pmax/movie_detail.html",{"movie":movie,"shows":show})
