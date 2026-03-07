@@ -28,5 +28,29 @@
     {% endfor %}
 
     <hr>
+    <h1>User Reviews</h1>
+    {% for i in reviews %}
+        <p>{{i.user.username}}, ⭐ {{i.rating}}</p>
+        <p>{{i.comment}}</p>
+
+        {% empty %}
+        <p>No reviews</p>
+    {% endfor %}
+
+    <form action="" method="post">
+        {% csrf_token %}
+
+        <textarea name="comment" placeholder="Enter your review" required></textarea> <br>
+
+        <select name="rating" required>
+            <option value="">Select Rating</option>
+            <option value="5">5 : Excellent</option>
+            <option value="4">4: Good</option>
+            <option value="3">3 : Average</option>
+            <option value="2">2 : Bad</option>
+            <option value="1">1 : Worst</option>
+        </select>
+        <button>POST</button>    
+    </form>
 </body>
 </html>
