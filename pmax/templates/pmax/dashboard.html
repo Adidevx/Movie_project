@@ -1,39 +1,210 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        .container{
-            display: flex;
-            align-items: center;
-            justify-content: space-evenly;
-            flex-direction: column;
-            flex-wrap: wrap;
-        }
-        .card {
-            display: flex;
-            align-items: center;
-            justify-content: space-evenly;
-            box-shadow: 0 0 15px black;
-            padding: 20px;
-            border-radius: 10px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Pmax Dashboard</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+/* BACKGROUND */
+
+body{
+background:
+linear-gradient(rgba(0,0,0,0.85),rgba(0,0,0,0.9)),
+url("https://images.unsplash.com/photo-1489599849927-2ee91cede3ba");
+
+background-size:cover;
+background-position:center;
+color:white;
+padding:30px;
+min-height:100vh;
+}
+
+/* HEADER */
+
+.header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:40px;
+
+background:rgba(0,0,0,0.6);
+backdrop-filter:blur(10px);
+padding:15px 25px;
+border-radius:12px;
+border:1px solid rgba(255,255,255,0.08);
+}
+
+.header h1{
+font-size:30px;
+letter-spacing:1px;
+}
+
+/* LOGOUT BUTTON */
+
+.logout-btn{
+background:linear-gradient(45deg,#ff2a6d,#ff7b00);
+border:none;
+padding:10px 20px;
+border-radius:25px;
+color:white;
+font-weight:bold;
+cursor:pointer;
+transition:0.3s;
+box-shadow:0 5px 20px rgba(255,42,109,0.4);
+}
+
+.logout-btn:hover{
+transform:scale(1.08);
+box-shadow:0 10px 30px rgba(255,42,109,0.7);
+}
+
+/* MOVIE GRID */
+
+.container{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:40px;
+}
+
+/* MOVIE CARD */
+
+.card{
+background:rgba(20,20,20,0.9);
+border-radius:15px;
+overflow:hidden;
+position:relative;
+transition:0.4s;
+
+box-shadow:
+0 15px 40px rgba(0,0,0,0.8),
+0 0 15px rgba(255,42,109,0.2);
+}
+
+.card img{
+width:100%;
+height:340px;
+object-fit:cover;
+transition:0.5s;
+}
+
+/* HOVER */
+
+.card:hover{
+transform:translateY(-12px) scale(1.04);
+}
+
+.card:hover img{
+filter:brightness(60%);
+}
+
+/* MOVIE INFO */
+
+.info{
+padding:15px;
+}
+
+.info h2{
+font-size:18px;
+margin-bottom:6px;
+}
+
+.info p{
+font-size:14px;
+opacity:0.8;
+}
+
+/* VIEW BUTTON */
+
+.view-btn{
+position:absolute;
+top:50%;
+left:50%;
+
+transform:translate(-50%,-50%);
+
+background:linear-gradient(45deg,#ff2a6d,#ff7b00);
+border:none;
+
+padding:10px 25px;
+border-radius:25px;
+
+font-weight:bold;
+cursor:pointer;
+
+opacity:0;
+transition:0.4s;
+
+color:white;
+
+box-shadow:0 5px 20px rgba(255,42,109,0.4);
+}
+
+.card:hover .view-btn{
+opacity:1;
+}
+
+/* MOBILE */
+
+@media(max-width:700px){
+
+.header{
+flex-direction:column;
+gap:15px;
+text-align:center;
+}
+
+}
+
+</style>
+
 </head>
+
 <body>
-    <center><h1>Movies List</h1></center>
-    <a href="{% url 'logout' %}"><button>Logout</button></a>
-    <div class="container">
-        {% for i in movies %}
-        <div class="card">
-            <img height="200px" src="{{i.image.url}}" alt="">
-        <h2>Title: {{i.name}}</h2>
-        <h2>Durations: {{i.durations}} mins</h2>
-        <a href="{% url 'movie_detail' i.id %}"><button>View</button></a><br>
-        </div>
-    {% endfor %}
-    </div>
+
+<div class="header">
+
+<h1>Movies Dashboard</h1>
+
+<a href="{% url 'logout' %}">
+<button class="logout-btn">Logout</button>
+</a>
+
+</div>
+
+<div class="container">
+
+{% for i in movies %}
+
+<div class="card">
+
+<img src="{{i.image.url}}">
+
+<a href="{% url 'movie_detail' i.id %}">
+<button class="view-btn">View</button>
+</a>
+
+<div class="info">
+<h2>{{i.name}}</h2>
+<p>Duration: {{i.durations}} mins</p>
+</div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
 </body>
 </html>
