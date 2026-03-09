@@ -186,7 +186,7 @@ margin-bottom:10px;
 <h3>Available Seats : {{i.available_seats}}</h3>
 
 {% if i.available_seats > 0 %}
-<button class="book-btn">Book Now</button>
+<a href="{% url 'book_show' i.id %}"><button class="book-btn">Book Now</button></a>
 {% else %}
 <button class="sold-btn">Sold Out</button>
 {% endif %}

@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from pmax.models import User, Movie,Show, Review
-
+from pmax.models import User, Movie,Show, Review, Booking
+from django.views.decorators.cache import never_cache
 # Create your views here.
 def Home(request):
     return render(request,"./pmax/home.html")
@@ -34,7 +34,8 @@ def Login(request):
             return render(request,"./pmax/login.html",{"error":"Invalid credentials"})
     else:
         return render(request,"./pmax/login.html")
-    
+
+@never_cache
 def Dashboard(request):
     user_id = request.session.get("user-id")
     if not user_id:
@@ -43,11 +44,12 @@ def Dashboard(request):
     movies = Movie.objects.all()
     return render(request, "./pmax/dashboard.html",{"movies":movies})
 
-
+@never_cache
 def logout(request):
     request.session.flush()
     return redirect("Login")
 
+@never_cache
 def movie_detail(request,movie_id):
     user_id = request.session.get('user-id')
     if not user_id:
@@ -69,3 +71,33 @@ def movie_detail(request,movie_id):
         )
         return redirect(f"/movie_detail/{movie_id}")
     return render(request,"./pmax/movie_detail.html",{"movie":movie,"shows":show,"reviews":review})
+
+@never_cache
+def book_show(request,show_id):
+    user_id = request.session.get('user-id')
+    if not user_id:
+        return redirect('login')
+    show = Show.objects.get(id=show_id)
+
+    rows= ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U',
+          'V','W','X','Y','Z']
+    seats = []
+    seats_per_row = 10
+    total_seats = show.available_seats
+    count= 0
+
+    for row in rows:
+        for num in range(1,seats_per_row+1):
+            if count>=total_seats:
+                break
+            seats.append(row+str(num))
+            count = count+1
+        if count>=total_seats:
+            break
+
+    #Available Slots
+    bookings = Booking.objects.filter(show=show)
+    booked_seats = []
+    for b in bookings:
+        booked_seats.extends(b.seats.split(","))
+    return render(request, "./pmax/seat_selection.html",{'show':show ,'booked_seats': booked_seats, 'seats':seats})
